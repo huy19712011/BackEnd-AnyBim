@@ -2,11 +2,6 @@ const winston = require('winston');
 require('express-async-errors');
 const express = require('express');
 const cors = require('cors');
-const articles = require('./routes/articles');
-const users = require('./routes/users');
-const auth = require('./routes/auth');
-// const logger = require('./middleware/logger');
-const error = require('./middleware/error');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const config = require('config');
@@ -17,23 +12,8 @@ const dbDebuger = require('debug')('app:db');
 
 const app = express();
 
-const logger = winston.createLogger({
-  level: 'warn',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.File({ filename: 'error.log', handleExceptions: true}),
-    new winston.transports.Console({handleExceptions: true}),
-  ],
-  // exceptionHandlers: [
-  //   new winston.transports.File({filename: 'unHandledException.log'})
-  // ],
-  
-  // rejectionHandlers can work as exceptionHandlers => not need above lines of code
-  rejectionHandlers: [
-    new winston.transports.File({ filename: 'unHandledRejection.log' }) 
-  ],
-  // exitOnError: false, // true by default
-});
+require('./startup/routes')(app);
+
 
 // console.log("This is only for test");
 // logger.add(new winston.transports.Console({message: 'This only for test 123'}))
@@ -104,17 +84,5 @@ app.listen(8000, () => {
   console.log('Server is started ...');
 });
 
-// Query data
-// app.get('/articles', async (req, res) => {
-//   const conn = await pool.getConnection();
-//   // const articles = await conn.findAll();
-//   const articles = await conn.query("SELECT * FROM articles");
-//   res.send(articles);
-// });
 
-app.use('/articles', articles);
-app.use('/users', users);
-app.use('/auth', auth);
-
-app.use(error);
 

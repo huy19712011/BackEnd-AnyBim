@@ -9,4 +9,17 @@ const sequelize = new Sequelize('ngblog', 'root', '123456', {
   // logging: (...msg) => console.log(msg),
 });
 
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } 
+  catch (err) {
+    console.log('Error: ', err);
+  }
+})();
+
+
+
+
 module.exports = sequelize;

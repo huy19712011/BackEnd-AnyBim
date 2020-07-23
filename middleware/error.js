@@ -1,4 +1,5 @@
-const logger = require('./logger');
+const logger = require('../startup/logger');
+
 
 
 // const logger = winston.createLogger({

@@ -100,6 +100,12 @@ router.delete('/:id', [auth, admin], async (req, res) => {
 });
 
 
+// router.get('/me', auth, async (req, res) => {
+//   // const user = await User.findByPk(req.user.id);
+//   const user = await User.findOne({where: {email: req.user.email}});
+//   res.send(user);
+// });
+
 router.post('/', auth, async (req, res) => {
   /**
   Old version
@@ -172,7 +178,5 @@ router.put('/:id', async (req, res) => {
   
   return res.send(user);
 });
-
-
 
 module.exports = router;

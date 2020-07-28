@@ -1,6 +1,7 @@
 // const sequelize = require('./sequelize');
 // const winston = require('winston');
-require('express-async-errors');
+// require('express-async-errors');
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -38,9 +39,10 @@ if (app.get('env') === 'development') {
   startupDebuger('Morgan enable...');
 }
 
-app.listen(8000, () => {
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
   // console.log('Server is started ...');
-  logger.info('Server is started ...');
+  logger.info(`Server is started at PORT: ${port}`);
 });
 
 

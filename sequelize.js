@@ -20,6 +20,4 @@ const sequelize = new Sequelize('ngblog', 'root', '123456', {
 })();
 
 
-
-
 module.exports = sequelize;

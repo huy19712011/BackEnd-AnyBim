@@ -39,6 +39,9 @@ speed-measure-plugin*.json
 npm-debug.log
 yarn-error.log
 testem.log
+/error.log
+/info.log
+/unHandledRejection.log
 /typings
 
 # System Files

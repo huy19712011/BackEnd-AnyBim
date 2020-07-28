@@ -39,6 +39,7 @@ if (app.get('env') === 'development') {
   startupDebuger('Morgan enable...');
 }
 
+// const port = process.env.PORT || config.get('port');
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
   // console.log('Server is started ...');

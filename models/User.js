@@ -3,7 +3,8 @@ const config = require('config');
 const { DataTypes, Model, Sequelize } = require('sequelize');
 
 const sequelize = require('../sequelize');
-const Joi = require('joi');
+// const Joi = require('joi');
+const Joi = require('@hapi/joi');
 
 
 const userSchema = {
@@ -51,6 +52,7 @@ class User extends Model {
       return token;
     }
 }
+
 User.init(userSchema, {sequelize, modelName: 'user'});
 
 // create table in database
@@ -67,13 +69,34 @@ User.sync({force: false}); // create if not exists
 //   // console.log('table created in database');
 // });
 
+/**
+  Using old Joi
+**/
+// function validateUser(user) {
+//   const schema = Joi.object().keys({
+//     name: Joi.string().min(2).max(30),
+//     // email: Joi.string().min(5).max(255).email().default('test@gmail.com'), // default() not working here!
+//     email: Joi.string().min(5).max(255).email(),
+//     password: Joi.string().required().min(5).max(1024),
+//     isAdmin: Joi.boolean(),
+//   });
+  
+//   return schema.validate(user);
+// }
+
+/**
+  Using @hapi/Joi
+**/
 function validateUser(user) {
-  const schema = Joi.object().keys({
+  const schema = Joi.object({
+    id: Joi.number(),
     name: Joi.string().min(2).max(30),
     // email: Joi.string().min(5).max(255).email().default('test@gmail.com'), // default() not working here!
     email: Joi.string().min(5).max(255).email(),
     password: Joi.string().required().min(5).max(1024),
     isAdmin: Joi.boolean(),
+    createdAt: Joi.date(),
+    updatedAt: Joi.date(),
   });
   
   return schema.validate(user);
@@ -81,5 +104,5 @@ function validateUser(user) {
 
 
 
-module.exports = User;
+module.exports.User = User;
 module.exports.validateUser = validateUser;

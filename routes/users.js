@@ -10,8 +10,8 @@ const Joi = require('joi');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
-const User = require('../models/User');
-const {validateUser} = require('../models/User');
+// const User = require('../models/User');
+const {User, validateUser} = require('../models/User');
 
 
 // Create some rows, use once for init data in table
@@ -107,29 +107,6 @@ router.delete('/:id', [auth, admin], async (req, res) => {
 // });
 
 router.post('/', auth, async (req, res) => {
-  /**
-  Old version
-  **/
-  // const schema = {
-  //   name: Joi.string().required().min(2),
-  //   address: Joi.string().required().min(5)
-  // };
-  
-  // const result = Joi.validate(req, schema);
-  // if (result.error) return res.status(400).send(result.error);
-  
-  /**
-  current version
-  **/
-  // const schema = Joi.object().keys({
-  //   name: Joi.string().required().min(2),
-  //   address: Joi.string().required().min(5)
-  // });
-  
-  // const result = schema.validate(req.body);
-  // if (result.error) return res.status(400).send(result.error.details[0].message);
-  
-  
   const { error } = validateUser(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
@@ -147,7 +124,7 @@ router.post('/', auth, async (req, res) => {
   //   password: req.body.password,
   // });
   
-  user = new User(_.pick(req.body, ['name', 'email', 'password', 'isAdmin']));
+  const user = new User(_.pick(req.body, ['name', 'email', 'password', 'isAdmin']));
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
   

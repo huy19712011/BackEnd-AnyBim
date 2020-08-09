@@ -14,6 +14,15 @@ const dbDebuger = require('debug')('app:db');
 
 
 const app = express();
+// const corsOptions = {
+//   origin: ['http://localhost:4200', 'http://localhost:4000', 'http://localhost:8000']
+// }
+// app.use(cors(corsOptions));
+app.use(cors());
+app.use(express.urlencoded({extended: true}));
+app.use(express.static('public'));
+app.use(helmet());
+
 
 require('./startup/routes')(app);
 require('./startup/config')();
@@ -24,14 +33,6 @@ require('./startup/config')();
 // throw new Error('Something failed during startup');
 // const p = Promise.reject(new Error('Something failed miserably'));
 // p.then(() => console.log('done'));
-
-const corsOptions = {
-  origin: ['http://localhost:4200', 'http://localhost:4000', 'http://localhost:8000']
-}
-app.use(cors(corsOptions));
-app.use(express.urlencoded({extended: true}));
-app.use(express.static('public'));
-app.use(helmet());
 
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'));

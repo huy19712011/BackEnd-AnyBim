@@ -10,7 +10,7 @@ const Joi = require('@hapi/joi');
 const articleSchema = {
   // id: { type: DataTypes.INTEGER, primaryKey: true },
   title: { type: DataTypes.STRING },
-  key: { type: DataTypes.STRING },
+  key: { type: DataTypes.STRING, allowNull: true },
   date: { type: DataTypes.DATE, defaultValue: new Date()},
   content: { type: DataTypes.TEXT},
   description: { type: DataTypes.TEXT },

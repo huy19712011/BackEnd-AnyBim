@@ -6,7 +6,7 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 
-const User = require('../models/User');
+const {User} = require('../models/User');
 
 router.post('/', async (req, res) => {
   
@@ -25,9 +25,34 @@ router.post('/', async (req, res) => {
 
   const token = user.generateAuthToken();
   // const token = jwt.sign({email: user.email}, config.get('jwtPrivateKey'));
-  res.send(token);
+  return res.send({token});
 
 });
+
+
+router.post("/check", async (req, res) => {
+  
+  var valid = verifyJwt(req.body.token);
+  res.send(valid != false);
+});
+
+
+function verifyJwt(token) {
+  try {
+    return jwt.verify(token, config.get('jwtPrivateKey'));
+  } catch (ex) {
+    return false;
+  }
+
+
+  // try {
+  //   return jwt.verify(token, publicKey, verifyOptions);
+  // } catch (err) {
+  //   return false;
+  // }
+}
+
+
 
 function validateUser(req) {
   const schema = Joi.object().keys({

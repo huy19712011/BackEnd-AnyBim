@@ -6,6 +6,8 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 
+const sql = require('sequelize');
+
 // const asyncMiddleware = require('../middleware/async');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
@@ -19,10 +21,15 @@ const {Article, validateArticle} = require('../models/Article');
 
 
 router.get('/', async (req, res) => {
-  // add this only for test winston
-  // throw new Error('Could not get the users')
-
-  const articles = await Article.findAll();
+  const articles = await Article.findAll({
+    // Patrick tutorial
+    // order: sql.literal("date DESC"),
+    // docs
+    order: [
+      ['date', 'DESC'],
+    ],
+    where: { published: true },
+  });
   return res.send(articles);
 });
 
@@ -36,7 +43,8 @@ router.get('/:id', async (req, res) => {
 });
 
 
-router.delete('/:id', [auth, admin], async (req, res) => {
+// router.delete('/:id', [auth, admin], async (req, res) => {
+router.delete('/:id', async (req, res) => {
   /**
   way 1
   **/

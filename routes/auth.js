@@ -30,6 +30,9 @@ router.post('/', async (req, res) => {
 });
 
 
+/**
+  add this to check auth in FrontEnd (Patrick tutorial). Not Need if using @auth0/angular-jwt
+**/
 router.post("/check", async (req, res) => {
   
   var valid = verifyJwt(req.body.token);

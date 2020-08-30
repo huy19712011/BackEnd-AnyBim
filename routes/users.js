@@ -137,7 +137,7 @@ router.post('/', auth, async (req, res) => {
   
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', [auth, admin], async (req, res) => {
   const user = await User.findOne({where: {id: parseInt(req.params.id)}});
   if (!user)
   return res.status(404).send("The user with the given ID was not found.");
@@ -147,10 +147,12 @@ router.put('/:id', async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
   
+  const salt = await bcrypt.genSalt(10);
+  const newPassword = await bcrypt.hash(req.body.password, salt);
   await user.update({
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password,
+    password: newPassword,
   });
   
   return res.send(user);

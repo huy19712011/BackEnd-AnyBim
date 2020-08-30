@@ -28,7 +28,8 @@ router.get('/', async (req, res) => {
     order: [
       ['date', 'DESC'],
     ],
-    where: { published: true },
+    // this conditional (published: true) we can do in FrontEnd, using (Rxjs.map + Array.filter) functions
+    // where: { published: true }, 
   });
   return res.send(articles);
 });

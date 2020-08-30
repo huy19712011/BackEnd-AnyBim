@@ -23,9 +23,15 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(helmet());
 
+const upload = require('express-fileupload');
+app.use(upload());
+
+
 
 require('./startup/routes')(app);
 require('./startup/config')();
+
+// require('./routes/upload')(app);
 
 /**
  Adding this only for test error handling

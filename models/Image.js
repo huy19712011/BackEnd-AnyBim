@@ -7,40 +7,27 @@ const sequelize = require('../sequelize');
 const Joi = require('@hapi/joi');
 
 
-const articleSchema = {
-  id: { type: DataTypes.INTEGER, primaryKey: true },
-  title: { type: DataTypes.STRING },
-  key: { type: DataTypes.STRING, allowNull: true },
-  date: { type: DataTypes.DATE, defaultValue: new Date()},
-  content: { type: DataTypes.TEXT},
-  description: { type: DataTypes.TEXT },
+const imageSchema = {
+  type: { type: DataTypes.STRING },
+  name: { type: DataTypes.STRING },
   imageUrl: { type: DataTypes.STRING },
-  viewCount: { type: DataTypes.INTEGER, defaultValue: 0 },
-  published: { type: DataTypes.BOOLEAN, defaultValue: true },
-  // image: [
-  //   {
-  //     name: {type: DataTypes.STRING},
-  //     data: {type: DataTypes.BLOB},
-  //   },
-  //   {
-  //     other: {type: DataTypes.STRING},
-  //   }
-  // ],
+  data: { type: DataTypes.BLOB("long")},
+  // data: { type: DataTypes.STRING},
 };
 
 
-class Article extends Model {
+class Image extends Model {
   // generateAuthToken = function () {
   //   const token = jwt.sign({email: this.email, isAdmin: this.isAdmin}, config.get('jwtPrivateKey'));
   //   return token;
   // }
 }
 
-Article.init(articleSchema, {sequelize, modelName: 'article'});
+Image.init(imageSchema, {sequelize, modelName: 'image'});
 
 // create table in database
-// Article.sync({force: true}); // delete if exists and create new
-Article.sync({force: false}); // create if not exists
+Image.sync({force: true}); // delete if exists and create new
+// Image.sync({force: false}); // create if not exists
 
 // // Add some rows on table, use once for init...
 // Article.create({ 
@@ -65,27 +52,23 @@ Article.sync({force: false}); // create if not exists
 // });
 
 
-function validateArticle(article) {
+function validateImage(image) {
   /**
-    schema should be exactly the same as fields in table Article in order to work with PUT on Frontend !!!
+    schema should be exactly the same as fields in table Image in order to work with PUT on Frontend !!!
   **/
   const schema = Joi.object({
     id: Joi.number(),
-    title: Joi.string().min(2).max(255),
-    key: Joi.string().min(5).max(255),
-    date: Joi.date(),
-    content: Joi.string().required(),
-    description: Joi.string().required(),
+    type: Joi.string(),
+    name: Joi.string(),
+    data: Joi.required(),
     imageUrl: Joi.string(),
-    viewCount: Joi.number(),
-    published: Joi.boolean(),
     createdAt: Joi.date(),
     updatedAt: Joi.date(),
   });
   
-  return schema.validate(article);
+  return schema.validate(image);
 }
 
 
-module.exports.Article = Article;
-module.exports.validateArticle = validateArticle;
+module.exports.Image = Image;
+module.exports.validateImage = validateImage;

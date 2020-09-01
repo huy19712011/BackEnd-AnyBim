@@ -8,6 +8,7 @@ const users = require('../routes/users');
 const auth = require('../routes/auth');
 const error = require('../middleware/error');
 const upload = require('../routes/upload');
+const images = require('../routes/images');
 
 
 module.exports = function (app) {
@@ -17,6 +18,7 @@ module.exports = function (app) {
   app.use('/users', users);
   app.use('/auth', auth);
   app.use('/upload', upload);
+  app.use('/images', images);
 
   app.use(error);
 

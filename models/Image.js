@@ -11,8 +11,6 @@ const imageSchema = {
   type: { type: DataTypes.STRING },
   name: { type: DataTypes.STRING },
   imageUrl: { type: DataTypes.STRING },
-  data: { type: DataTypes.BLOB("long")},
-  // data: { type: DataTypes.STRING},
 };
 
 
@@ -26,8 +24,8 @@ class Image extends Model {
 Image.init(imageSchema, {sequelize, modelName: 'image'});
 
 // create table in database
-Image.sync({force: true}); // delete if exists and create new
-// Image.sync({force: false}); // create if not exists
+// Image.sync({force: true}); // delete if exists and create new
+Image.sync({force: false}); // create if not exists
 
 // // Add some rows on table, use once for init...
 // Article.create({ 
@@ -60,7 +58,6 @@ function validateImage(image) {
     id: Joi.number(),
     type: Joi.string(),
     name: Joi.string(),
-    data: Joi.required(),
     imageUrl: Joi.string(),
     createdAt: Joi.date(),
     updatedAt: Joi.date(),

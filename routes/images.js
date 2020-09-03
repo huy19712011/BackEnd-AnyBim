@@ -8,7 +8,7 @@ const admin = require('../middleware/admin');
 
 const {Image, validateImage} = require('../models/Image');
 
-
+// /images
 router.get('/', async (req, res) => {
   const images = await Image.findAll({
     // Patrick tutorial
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
   return res.send(images);
 });
 
-
+// /images/id
 router.get('/:id', async (req, res) => {
   const image = await Image.findOne({where: {id: parseInt(req.params.id)}});
   if (!image)

@@ -11,6 +11,8 @@ unHandledRejection.log
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
+# public download
+/downloads
 
 # dependencies
 /node_modules

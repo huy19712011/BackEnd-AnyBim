@@ -4,7 +4,8 @@ const sequelize = new Sequelize('ngblog', 'root', '123456', {
   dialect: 'mariadb',
   port: 3306,
   dialectOptions: {
-    timezone: process.env.db_timezone
+    timezone: process.env.db_timezone,
+    charset: 'utf8mb4',
   },
   // logging: (...msg) => console.log(msg),
 });

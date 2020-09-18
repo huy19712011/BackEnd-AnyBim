@@ -3,8 +3,8 @@
 const { DataTypes, Model } = require('sequelize');
 
 const sequelize = require('../sequelize');
-// const Joi = require('joi');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
+// const Joi = require('@hapi/joi');
 
 
 const articleSchema = {
